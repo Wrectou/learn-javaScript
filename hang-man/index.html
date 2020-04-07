@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hang-man</title>
+  <link rel="stylesheet" href="./hang-man.css">
+</head>
+<body>
+  <h1>自挂东南枝</h1>
+  <p>找到隐藏的单词-输入字母</p>
+  <div class="container">
+
+    <svg height="250" widtn="200" class="figure-container">
+      <!-- 枝头 -->
+      <line x1="60" y1="20" x2="140" y2="20"/>
+      <!-- 树干 -->
+      <line x1="140" y1="20" x2="140" y2="50" />
+      <line x1="60" y1="20" x2="60" y2="230" />
+      <line x1="20" y1="230" x2="100" y2="230" />
+      <!-- 头部 -->
+      <circle cx="140" cy="70" r="20" class="figure-part" />
+      <!-- 身体 -->
+      <line x1="140" y1="90" x2="140" y2="150" class="figure-part" />
+      <!-- 手臂 -->
+      <line x1="140" y1="120" x2="120" y2="100" class="figure-part" />
+      <line x1="140" y1="120" x2="160" y2="100" class="figure-part" />
+      <!-- 双腿 -->
+      <line x1="140" y1="150" x2="120" y2="180" class="figure-part" />
+      <line x1="140" y1="150" x2="160" y2="180" class="figure-part" />
+    </svg>
+
+    <!-- 错误提示 -->
+    <div class="wrong-letters-container">
+      <div id="wrong-letters">
+        <!-- <p>错误：</p>
+        <span>a,b,c</span> -->
+      </div>
+    </div>
+
+    <!-- 单词输入内容 -->
+    <div id="word" class="word">
+      <!-- <div class="letter">h</div>
+      <div class="letter">e</div>
+      <div class="letter">l</div>
+      <div class="letter">l</div>
+      <div class="letter">o</div> -->
+    </div>
+
+  </div>
+
+  <!-- 弹出框 -->
+  <div id="popup-container" class="popup-container">
+    <div class="popup">
+      <h2 id="final-message"></h2>
+      <button id="play-button">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- 通知框 -->
+  <div id="notification-container" class="notification-container">
+    <p>此字母已经输入过，请重新输入</p>
+  </div>
+
+  <script src="./hang-man.js"></script>
+</body>
+</html>
