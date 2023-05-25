@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>avatar</title>
+  <style>
+    #app{
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .avatar{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: gray;
+      text-align: center;
+      line-height: 80px;
+      color: #fff;
+      font-family: Helvetica;
+      animation: hello 1s ease-in-out;
+    }
+    @keyframes hello{
+      0%{
+        transform: translateY(0);
+      }
+      40%{
+        transform: translateY(-40px);
+      }
+      60%{
+        transform: translateY(0px);
+      }
+      80%{
+        transform: translateY(-20px);
+      }
+      100%{
+        transform: translateY(0px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="avatar">H</div>
+  </div>
+  <script>
+    const users = ['张三','里斯','王二(离职)','张三2','张三丰',]
+    let arr = users.filter(user => { if (!user.includes('(离职)')) { return user }
+    })
+    console.log(arr)
+  </script>
+</body>
+</html>

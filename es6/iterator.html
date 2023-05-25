@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iterator</title>
+</head>
+<body>
+
+  <script>
+
+    /* // 为Object对象添加iterator迭代器
+    Object.prototype[Symbol.iterator] = function() {
+      let index = 0
+      let objValueArr = Object.values(this)
+      return {
+        next() {
+          if (index < objValueArr.length) return { value: objValueArr[index++], done: false }
+          else return { value: undefined, done: true }
+        },
+        aa() {
+          console.log('aa');
+        }
+      }
+    }
+
+    var obj = {
+      a: 1,
+      b: 2,
+      C: 3,
+      aa: 100,
+      ab: 200,
+      100: 1000
+    }
+
+    for (let key in obj) {
+      console.log('key: ', key);
+    }
+
+    for (let val of obj) {
+      console.log('val: ', val);
+    }
+
+    // const Iteratir = obj[Symbol.iterator]()
+    // console.log(Iteratir); */
+
+
+    /* // 通过 # 为 class 添加私有属性
+    
+    // 私有属性和静态属性的区别？？
+    // 1、私有属性和方法只能在类的内部使用，实例不能使用，子类不能继承。这样就不需要使用闭包来隐藏不想暴露给外界的私有变量（达到闭包的效果）
+    // 2、静态属性和方法实例不能使用，但是能被子类继承，可以直接用类来调用
+    
+    class Calc {
+      #Number = 10
+      static Number1 = 100
+      #func1() {
+        console.log('#func1');
+      }
+      increment() {
+        this.#Number ++
+        this.#func1()
+      }
+      increment1() {
+        console.log(this);
+        // this.Number1 ++
+      }
+      getNum() {
+        return this.#Number
+      }
+      getNum1() {
+        return this.Number1
+      }
+    }
+
+    class Calc1 extends Calc {
+      
+    }
+
+    const calc1 = new Calc()
+    calc1.increment()
+    calc1.increment1()
+    console.log(calc1.getNum());
+    console.log(calc1.getNum1());
+    // console.log(calc1.#Number);
+    console.log(calc1.Number1);
+    console.log(Calc);
+    console.log(Calc.Number1);
+    const calc2 = new Calc1()
+    console.log('------------');
+    calc2.increment()
+    calc2.increment1()
+    console.log(calc2.getNum());
+    console.log(calc2.getNum1());
+    // console.log(calc2.#Number);
+    console.log(calc2.Number1);
+    console.log(Calc1);
+    console.log(Calc1.Number1); */
+
+
+    /* // 用js递归的方式写1到100的求和
+    function recursionPlus(num, sum) {
+      sum += num
+      if (num < 100) {
+        num ++
+        recursionPlus(num, sum)
+      } else {
+        console.log('recursionPlus: ', sum);
+        return num
+      }
+    }
+    console.log('recursionPlusFunc: ', recursionPlus(1, 0));
+
+    function num(n) {
+      if (n === 1) return 1
+      else return num(n-1) + n
+    }
+    let sum = num(100);
+    console.log("sum: ", sum) */
+
+
+    /* // 求两个数组的交集和并集
+    const arr1 = [1,3,4,6,7]
+    const arr2 = [2,5,3,6,1]
+
+    function getIntersection(arr1, arr2) {
+      // 交集
+      let newArr = []
+      for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j ++) {
+          if (arr1[i] === arr2[j]) {
+            newArr.push(arr1[i])
+          }
+        }
+      }
+      console.log('交集是: ', newArr);
+    }
+    getIntersection(arr1, arr2)
+
+    function getUnion(arr1, arr2) {
+
+      // 并集
+      var newArrSet = new Set([...arr1, ...arr2])
+      var newArr = Array(...newArrSet)
+      console.log('并集是: ', newArr);
+
+      // var arr = []
+      // var newArr = arr1.concat(arr2)
+      // newArr.forEach(item => {
+      //   if (!arr.includes(item)) arr.push(item)
+      // })
+      // console.log(arr);
+
+    }
+    getUnion(arr1, arr2) */
+
+
+    /* // 浅拷贝/深拷贝
+    function clone(origin, target) {
+      var target = target || {},
+          toStr = Object.prototype.toString,
+          arrType = '[object Array]';
+      for (let key in origin) {
+        if (origin.hasOwnProperty(key)) {
+          if (typeof origin[key] === 'object' && origin[key] !== null) {
+          // if (toStr.call(origin[key]) === '[object Object]' || toStr.call(origin[key]) === '[object Array]') {
+            // console.log('Object key', key);
+            toStr.call(origin[key]) === arrType ? target[key] = [] : target[key] = {}
+            clone(origin[key], target[key])
+          } else {
+            // console.log('NO Object key', key);
+            target[key] = origin[key]
+          }
+        }
+      }
+      return target
+    }
+    let obj = {
+      a: 1,
+      b: 2,
+      c: {
+        d: 3,
+        e: 4
+      },
+      f: [1, 2]
+    }
+    Object.prototype.z = '1'
+    let newObj = clone(obj)
+    // console.log('newObj: ', newObj);
+    // newObj.a = 333;
+    // newObj.c.e = 444;
+    // newObj.f[1] = 444;
+    // console.log('obj: ', obj);
+    // console.log('newObj: ', newObj); */
+
+
+    /* // 用js递归的方式写1到100的求和
+    var num = 1, sum = 0;
+    function add(num) {
+      if (num > 100) {
+        console.log('sum: ', sum);
+        return sum
+      } else {
+        sum += num
+        num ++
+        add(num)
+      }
+    }
+    // add(num) */
+
+
+    /* function getSum(a, ...arr) {
+      console.log(a, arr);
+      console.log(arguments);
+    }
+    // getSum(1,2,3) */
+
+
+    /* const zhao = {
+        name: '赵本山',
+        age: '不详',
+        xiaopin: function() {
+          console.log(this, this.name);
+        },
+        xiaopin2: () => {
+          console.log(this, this.name);
+        }
+      }
+
+      let {name, age, xiaopin, xiaopin2 } = zhao
+      
+      console.log(name);
+      console.log(age);
+      console.log(xiaopin);
+      console.log(xiaopin2);
+      
+      xiaopin()
+      xiaopin2()
+
+      zhao.xiaopin()
+      zhao.xiaopin2()
+    */
+
+    /* function getName() {
+      console.log(this.name2)
+    }
+    let getName2 = () => {
+      console.log(this.name2)
+    }
+    // 设置window对象的name属性
+    var name2 = '尚硅谷'
+    var school = {
+      name2: 'atguigu'
+    }
+
+    // 直接调用
+    getName()
+    getName2()
+    // call方法
+    getName.call(school)
+    getName2.call(school) */
+
+
+    /* // let Person = function(name,age) {
+    let Person = (name,age) => {
+      this.name = name
+      this.age = age
+    }
+    let me = new Person('xiao', 30)
+    console.log(me); */
+
+    
+    /* let fn = (...arr) => {
+      // console.log(arguments)
+      console.log(arr);
+    }
+    fn(1,2,4)
+
+    function fn3() {
+      console.log(arguments)
+    }
+    fn3(1,2,3) */
+
+
+    /* // 需求一 点击div两秒后颜色变成粉色
+    let ad = document.getElementById('ad')
+    ad.addEventListener('click', function() {
+      // setTimeout(() => {
+      //   this.style.background = 'pink'
+      // }, 2000)
+
+      let self = this
+      setTimeout(function() {
+        self.style.background = 'pink'
+      }, 2000)
+    })
+    
+    // 需求二 从数组中返回偶数的元素
+    const arr = [1,3,5,6,8,9,10]
+    // const result = arr.filter((item) => {
+    //   if (item % 2 === 0) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // })
+    const result = arr.filter( item => item % 2 === 0)
+    console.log(result); */
+
+    
+    /* // function sum1(a,b,c=10) {
+    //   return a+b+c
+    // }
+    // console.log(sum1(1,2));
+
+    // function connect(options) {
+    //   let host = options.host
+    //   let username = options.username
+    //   console.log(host);
+    //   console.log(username);
+    // }
+    function connect({host= '127.0.0.1', username, password, port= 8888}) {
+      console.log(host);
+      console.log(username);
+      console.log(password);
+      console.log(port);
+    }
+
+    connect({
+      // host: 'localhost',
+      username: 'admin',
+      password: 'admin',
+      // port: 8080
+    }) */
+
+
+    /* function fn(a,...args,b) {
+    // function fn(a,b,...args) {
+      console.log(a);
+      console.log(b);
+      console.log(args);
+      console.log(...args);
+    }
+    fn(1,2,3,4,5) */
+
+
+    /* const users = ['张三','里斯','王五']
+    // => '张三','里斯','王五'
+    function show() {
+      console.log(arguments);
+    }
+    console.log(...users);
+    show(users)
+    show(...users)    // show('张三','里斯','王五') */
+
+
+    /* Object.prototype[Symbol.iterator] = function() {
+      let i = 0
+      const objArr = new Set()
+      for (let key in this) {
+        objArr.add(this[key])
+      }
+      return {
+        next() {
+          let arr = [...objArr]
+          if (i < arr.length) return { value: arr[i++], done: false }
+          else return { value: undefined, done: true }
+        },
+        aa() {
+          console.log('aa');
+        }
+      }
+    }
+    const zhangsan = {
+      name: "zhangsan",
+      age: 25,
+      home: 'LA'
+    }
+    let lisi = {
+      name: "lisi",
+      age: 20,
+      home: 'SA'
+    }
+    for (let key in zhangsan) {
+      console.log('key: ', key);
+    }
+    for (let value of zhangsan) {
+      console.log('value: ', value);
+    }
+    for (let key in lisi) {
+      console.log('key: ', key);
+    }
+    for (let value of lisi) {
+      console.log('value: ', value);
+    } */
+
+
+    /* // Set 类数组 成员都是唯一值 有iterator 可以使用 ... 和 for of
+    var arr1 = [1,3,5,5,7,7,8,9]
+    var arr2 = [2,3,4,5,5,6,7,8,8]
+
+    // var set1 = new Set(arr1)
+    // console.log(set1.add(11));
+    // console.log(set1.delete(0));
+    // console.log(set1.has(11));
+    // console.log(arr1, set1);
+    // console.log(set1.size);
+
+    // 数组去重
+    // var onlyArr1 = [...new Set(arr1)]
+    // console.log(onlyArr1);
+    // 2、交集
+    // var newArr = [...new Set(arr1)].filter(item => arr2.includes(item))
+    // var newArr = [...new Set(arr1)].filter(item => new Set(arr2).has(item))
+    // console.log(newArr);
+    // 3、并集
+    // var newArr = [...new Set([...arr1, ...arr2])]
+    // console.log(newArr);
+    // 4、差集
+    // var newArr = [...new Set(arr1)].filter(item => !arr2.includes(item))
+    // console.log(newArr); */
+
+
+    /* // 创建一个空对象
+    // 构造函数的this指向空对象
+    // 执行构造函数代码，修改this指向到对象，添加新属性
+    // 返回对象
+    function Person1(name, age) {
+      this.name = name
+      this.age = age
+      sayHello = function() {
+        console.log(`My Name Is ${this.name}`);
+      }
+    }
+    Person1.prototype.sayHello = function() {
+      console.log(`My Name Is ${this.name}`);
+    }
+    Person1.sayHello = function() {
+      console.log(this);
+    }
+    let peiqi = new Person1('佩琦', 30)
+    console.log(peiqi);
+    peiqi.sayHello()
+    // console.log(Person1.sayHello());
+
+    class Person2 {
+      constructor(name, age) {
+        this.name = name
+        this.age = age
+      }
+      sayHello() {
+        console.log(`My Name Is ${this.name}`);
+      }
+      static sayHello() {
+        console.log(this);
+      }
+    }
+    let qiaozhi = new Person2('乔治', 30)
+    console.log(qiaozhi);
+    qiaozhi.sayHello()
+    // console.log(Person2.sayHello()); */
+
+
+    /* Object.prototype[Symbol.iterator] = function() {
+      let i = 0
+      const objArr = new Set()
+      for (let key in this) {
+        if (this.hasOwnProperty(key)) objArr.add(this[key])
+      }
+      return {
+        next() {
+          let arr = [...objArr]
+          if (i < arr.length) return { value: arr[i++], done: false }
+          else return { value: undefined, done: true }
+        },
+        aa() {
+          console.log('aa');
+        }
+      }
+    }
+    // Object静态方法
+    const obj = { name: 'zhangsan', age: 20, a: { b: 11, c: 222  } }
+    console.log(Object.keys(obj));
+    console.log(Object.values(obj));
+    Object.prototype.myKeys = function() {
+      let arr = []
+      for (let key in this) {
+        if (this.hasOwnProperty(key)) arr.push(key)
+      }
+      return arr
+    }
+    console.log(obj.myKeys());
+    Object.prototype.myValues = function() {
+      let arr = []
+      for (let value of this) {
+        arr.push(value)
+      }
+      return arr
+    }
+    console.log(obj.myValues());
+    const obj1 = {}
+    Object.assign(obj1, obj)
+    console.log(obj1, obj, obj1 == obj); */
+
+
+    /* const arr = ['red', 'blue', 'green']
+    const res = arr.every(item => item.includes('r'))
+    console.log(res); */
+
+
+    /* // 给数组拓展求最大值方法和求和方法
+    var arr = [1,2,4,7,0,1,10,9]
+
+    Array.prototype.max = function() {
+      return Math.max(...this)
+    }
+    Array.prototype.sum = function() {
+      let sum = 0
+      for (let val of this) {
+        sum += val
+      }
+      return sum
+      // return this.reduce((a,b) => {
+      //   return a+b
+      // }, 0)
+    }
+    console.log(arr.max());
+    console.log(arr.sum()); */
+
+
+    /* function Star(uname) {
+      this.uname = uname
+    }
+    Star.prototype.sing = function() {
+      console.log(`${this.uname}会唱歌`);
+    }
+    Star.prototype.dance = function() {
+      console.log(`${this.uname}会跳舞`);
+    }
+    console.log(Star.prototype);
+    // Star.prototype = {
+    //   constructor: Star,
+    //   sing: function() {
+    //     console.log(`${this.uname}会唱歌`);
+    //   },
+    //   dance: function() {
+    //     console.log(`${this.uname}会跳舞`);
+    //   },
+    // }
+    // console.log(Star.prototype);
+    const LDH = new Star('刘德华')
+    console.log(LDH);
+    LDH.sing()
+
+
+    window.onload = function() {
+      let containerEl = document.getElementById('container')
+      console.log(containerEl);
+      containerEl.setAttribute('class', 'theme-default-content')
+    } */
+
+
+    // this指向
+    function foo() {
+      console.log(this);
+    }
+    var obj1 = {
+      name: "obj1",
+      foo: foo
+    }
+    var obj2 = {
+      name: "obj2",
+      obj1: obj1
+    }
+    obj2.obj1.foo()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <script>
+
+    Object.prototype[Symbol.iterator] = function() {
+      let index = 0
+      let objArr = new Set()
+      for (let key in this) {
+        objArr.add(this[key])
+      }
+      return {
+        next() {
+          let aa = [...objArr]
+          if (index < aa.length) return { value: aa[index++] * 10, done: false}
+          else return { value: undefined, done: true}
+        }
+      }
+    }
+
+    let obj = {
+      a: 1,
+      b: 2,
+      c: 3,
+      [Symbol.iterator]: function() {
+        let index = 0
+        let objArr = new Set()
+        for (let key in this) {
+          objArr.add(this[key])
+        }
+        return {
+          next() {
+            let aa = [...objArr]
+            if (index < aa.length) return { value: aa[index++], done: false}
+            else return { value: undefined, done: true}
+          }
+        }
+      }
+    }
+
+    for (let val of obj) {
+      console.log('of', val);
+    }
+
+    let obj1 = {
+      aa: 2,
+      bb: 3,
+      cc: 4,
+    }
+
+    for (let val of obj1) {
+      console.log('of', val);
+    }
+    console.log([...obj1]);
+
+  </script> -->
+
+</body>
+</html>

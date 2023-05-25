@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyVue</title>
+</head>
+<body>
+
+  <div id="app">
+    <span>阿璞注：{{ name }}</span>
+    <input type="text" v-model="name">
+    <span>更多：{{ more.like }}</span>
+    <input type="text" v-model="more.like">
+  </div>
+
+  <script src="./MyVue.js"></script>
+
+  <script>
+
+    const vm = new Vue(
+      {
+        el: "#app",
+        data: {
+          name: "张三",
+          more: {
+            like: "吃饭睡觉打豆豆"
+          }
+        }
+      }
+    )
+
+    console.log('vm: ', vm);
+
+  </script>
+
+</body>
+</html>

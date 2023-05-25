@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // function call(success) {
+    //   console.log('Calling App...')
+    //   setTimeout(() => {
+    //     if (success) {
+    //       connected()
+    //     } else {
+    //       disconnected()
+    //     }
+    //   },3000)
+    // }
+
+    // function connected() {
+    //   console.log('App pocked up the phone.')
+    // }
+
+    // function disconnected() {
+    //   console.log('App rejected the call.')
+    // }
+
+    // call(true)
+
+
+
+    // function call(success, connectedCallback, disconnectedCallback) {
+    //   console.log('Calling App...')
+    //   setTimeout(() => {
+    //     if (success) {
+    //       // if (typeof connectedCallback === 'function') {
+    //       //   connectedCallback()
+    //       // }
+    //       (typeof connectedCallback === 'function') && connectedCallback()
+    //     } else {
+    //       if (typeof disconnectedCallback === 'function') {
+    //         disconnectedCallback()
+    //       }
+    //     }
+    //   },3000)
+    // }
+
+    // call(true, () => {
+    //   console.log('App pocked up the phone.')
+    // },() => {
+    //   console.log('App rejected the call.')
+    // })
+
+
+
+    function call(success) {
+      return new Promise((resolve, reject) => {
+        console.log('Calling App...')
+        setTimeout(() => {
+          if (success) {
+            resolve()
+          } else {
+            reject()
+          }
+        },3000)
+      })
+    }
+
+    // call(false)
+    //   .then(() => {
+    //     console.log('App pocked up the phone.')
+    //   })
+    //   .catch(() => {
+    //     console.log('App rejected the call.')
+    //   })
+
+    // async function action() {
+    //   try {
+    //     await call(true)
+    //     console.log('App pocked up the phone.')
+    //   } catch (error) {
+    //     console.log('App rejected the call.')
+    //   }
+    // }
+    // action()
+
+    (async () => {
+      try {
+        await call(true)
+        console.log('App pocked up the phone.')
+      } catch (error) {
+        console.log('App rejected the call.')
+      }
+    })()
+  </script>
+</body>
+</html>

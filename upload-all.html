@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upload-all</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .container{
+      padding: 20px;
+    }
+    label{
+      width: 100px;
+      height: 36px;
+      background: #2d8cf0;
+      display: inline-block;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 36px;
+      color: #fff;
+      cursor: pointer;
+      border: solid 2px black;
+      animation: identifier 2s ease-in infinite;
+    }
+    @keyframes identifier {
+      0% {border: solid 2px blue;}
+      50% {border: solid 2px #2d8cf0;}
+      100% {border: solid 2px blue;}
+    }
+    #select-file{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label for="select-file">选择文件夹</label>
+    <input id="select-file" type="file" accept="*/*" webkitdirectory onchange="loadFile(event)" />
+  </div>
+  <script>
+    function loadFile(e) {
+      e.preventDefault();
+      console.log(e.target.files)
+    }
+  </script>
+</body>
+</html>

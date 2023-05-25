@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>image-upload</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .container{
+      padding: 20px;
+    }
+    label{
+      width: 100px;
+      height: 36px;
+      background: #2d8cf0;
+      display: inline-block;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 36px;
+      color: #fff;
+      cursor: pointer;
+    }
+    #select-file{
+      display: none;
+    }
+    .show-box{
+      margin: 20px 0 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .new{
+      margin: 0 0 0 20px;
+    }
+    #img{
+      width: 100%;
+    }
+    h4{
+      margin: 0 0 10px 0;
+    }
+    p{
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label for="select-file">选择图片</label>
+    <input id="select-file" type="file" accept="image/*" onchange="loadFile(event)" />
+    <div class="show-box">
+      <div class="old">
+        <h4>压缩前：</h4>
+        <p>文件名：<span id="old-name"></span></p>
+        <p>大小：<span id="old-size"></span></p>
+        <p>分辨率：<span id="old-screen"></span></p>
+        <img id="img" src="" alt="">
+      </div>
+      <div class="new">
+        <h4>压缩后：</h4>
+        <p>文件名：<span id="new-name"></span></p>
+        <p>大小：<span id="new-size"></span></p>
+        <p>分辨率：<span id="new-screen"></span></p>
+        <canvas class="canvas"></canvas>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+  <script>
+    const oldImg = document.getElementById('img')
+    const oldName = document.getElementById('old-name')
+    const oldSize = document.getElementById('old-size')
+    const oldScreen = document.getElementById('old-screen')
+    const newName = document.getElementById('new-name')
+    const newSize = document.getElementById('new-size')
+    const newScreen = document.getElementById('new-screen')
+
+    function loadFile(event) {
+      let file =  event.target.files[0]
+      console.log(file)
+      // upload(file)
+      oldName.innerText = file.name
+      oldSize.innerText = ((file.size) / 1024 / 1024).toFixed(3) + 'M'
+      var fileName = file.name.split('.')[0] + '(压缩后).' + file.name.split('.')[1]
+      var fileType = file.type
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = function () {
+        oldImg.src = reader.result
+        // 先创建图片对象
+        var img = new Image()
+        img.src = reader.result
+        // 图片加载完之后
+        img.onload = function () {
+          var canvas = document.querySelector('canvas')
+          var context = canvas.getContext('2d')
+          // 图片原始尺寸
+          oldScreen.innerHTML = this.width + '*' + this.height
+          var originWidth = this.width;
+          var originHeight = this.height;
+          // 最大尺寸限制
+          var maxWidth = 600, maxHeight = 600;
+          // 目标尺寸
+          var targetWidth = originWidth, targetHeight = originHeight;
+          // 图片尺寸超过400x400的限制
+          if (originWidth > maxWidth || originHeight > maxHeight) {
+            if (originWidth / originHeight > maxWidth / maxHeight) {
+              // 更宽，按照宽度限定尺寸
+              targetWidth = maxWidth;
+              targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+            } else {
+              targetHeight = maxHeight;
+              targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+            }
+          }
+          newScreen.innerHTML = targetWidth + '*' + targetHeight
+          // canvas对图片进行缩放
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+          context.drawImage(img, 0, 0, targetWidth, targetHeight)
+          context.canvas.toBlob((blob) => {
+            const file = new File([blob], fileName, {
+              type: fileType,
+              lastModified: Date.now()
+            });
+            console.log(file);
+            newName.innerText = file.name
+            newSize.innerText = ((file.size) / 1024 /1024).toFixed(3) + 'M'
+            upload(file)
+          }, fileType);
+        }
+      }
+    }
+
+    function upload(file){
+      let formData = new FormData();
+        formData.append("type", "1");
+        formData.append("appkey", "293269");
+        formData.append("name", file.name);
+        formData.append("file", file);
+        console.log(formData.getAll('file'))
+        // $.ajax({
+        //   url:"http://10.1.2.177:8800/dev.maf.melms.utility.file.fileservicecom/api/SMFileStorage/CreateUpload",
+        //   type: "POST",
+        //   processData: false,
+        //   contentType: false,
+        //   data: formData,
+        //   success: data => {
+        //     console.log('data: ',data);
+        //   }
+        // });
+    }
+
+  </script>
+</body>
+</html>

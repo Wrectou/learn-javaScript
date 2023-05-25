@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>call-apply</title>
+</head>
+
+<body>
+  <!-- <script>
+    // 任意数计算器
+    function calc(nums, method) {
+      var sum;
+      for (var i = 0; i < nums.length; i++) {
+        if (i === 0) {
+          sum = nums[i]
+        } else {
+          if (method === 'plus') {
+            sum += nums[i]
+          } else if (method === 'minus') {
+            sum -= nums[i]
+          } else if (method === 'mul') {
+            sum *= nums[i]
+          } else if (method === 'div') {
+            sum /= nums[i]
+          }
+        }
+      }
+      console.log(sum);
+    }
+
+    function Compute() {
+      var args = arguments
+      this.plus = function() {
+        calc(args, 'plus')
+      }
+      this.minus = function() {
+        calc(args, 'minus')
+      }
+    }
+
+    function FullCompute() {
+      var args = arguments
+      Compute.apply(this, args)
+      this.mul = function() {
+        calc(args, 'mul')
+      }
+      this.div = function() {
+        calc(args, 'div')
+      }
+    }
+
+    var compute = new FullCompute(100, 10, 5)
+    console.log(compute);
+    compute.plus()
+    compute.minus()
+    compute.mul()
+    compute.div()
+  </script> -->
+
+  <script>
+    // 年龄为多少岁姓名为xx买了一辆排量为xx的什么颜色的什么牌子的车
+
+    // ！！！ call方法参数是一个一个传，apply方法参数是用一个数组传过去
+    function Person(option) {
+      Car.call(this, option.carOption)
+      this.name = option.name
+      this.age = option.age
+      console.log(`年龄为${this.age}岁姓名为${this.name}买了一辆排量为${this.size}的${this.color}色的${this.brand}车`);
+    }
+
+    function Car(option) {
+      this.brand = option.brand
+      this.color = option.color
+      this.size = option.size
+    }
+
+    var xiaoming = new Person({
+      name: '小明',
+      age: 27,
+      carOption: {
+        brand: 'Mazda',
+        color: 'red',
+        size: '2.0'
+      }
+    })
+    console.log(xiaoming);
+  </script>
+
+
+  <script>
+    // let sum = 0;
+    // new Array(100).fill(1).forEach(e=>sum+=e);
+    // console.log(sum)
+
+    // let p1 = new Promise((resolve ,reject)=> { reject('error1') })
+    // let p2 = p1.then(
+    //   (x) => {console.log(x)},
+    //   // (e) => {console.log(e)}
+    //   )
+
+    // let p1 = new Promise((resolve, reject) => {resolve(1)})
+    // let p2 = p1.then(val => {
+    //   console.log('p1 was resolved: ', val);
+    //   let a = val += 1
+    //   return a;
+    // })
+    // let p3 = p2.then(res => console.log(res), reason => console.log(reason))
+    // console.log(p3);
+
+    // let p1 = new Promise((resolve, reject) => {
+    //   setTimeout(resolve, 1000, 1)
+    // })
+    // let p2 = Promise.resolve().then(() => p1)
+
+    // console.log('p1: ',p1);
+    // console.log('p2: ',p2);
+
+
+    // Promise.resolve(1)
+    //   .then((x) => {return x + 1})
+    //   .then((x) => {console.log(x); throw new Error('My Error')})
+    //   .catch(() => 1)
+    //   .then((x) => x+1)
+    //   .then((x) => console.log(x))
+    //   .catch(console.error)
+
+
+
+    function second2TimeString(s){
+      if (s > 86400) return '时间大于一天'
+      const bufferSecond = s % 60;
+      const second = bufferSecond < 10 ? '0' + bufferSecond : bufferSecond;
+      if (s < 60) return '00:' + second;
+      const bufferMinute = Math.floor(s / 60 % 60);
+      const minute = bufferMinute < 10 ? '0' + bufferMinute : bufferMinute;
+      if (s < 3600) return minute + ':' + second;
+      const bufferHour = Math.floor(s / 60 / 60 % 24);
+      const hour = bufferHour < 10 ? '0' + bufferHour : bufferHour;
+      return hour + ':' + minute + ':' + second;
+    }
+    console.log(second2TimeString(590000));
+
+  </script>
+</body>
+
+</html>

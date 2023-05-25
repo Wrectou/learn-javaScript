@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mousemove</title>
+  <style>
+    #app{
+      width: 100vw;
+      height: 200px;
+      line-height: 200px;
+      background: #eee;
+      color: #333;
+      text-align: center;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const dom = document.getElementById('app')
+    let count = 0
+
+    function move() {
+      count ++ 
+      dom.innerText = count
+    }
+
+    function control(func, time) {
+      var timer
+      return function() {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          func()
+        }, time)
+      }
+    }
+
+    dom.onmousemove = control(move, 1000)
+  </script>
+</body>
+</html>

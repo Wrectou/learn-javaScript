@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Array</title>
+</head>
+<body>
+  <!-- 双层循环去重 -->
+  <!-- <script src="./array.js"></script> -->
+
+  <!-- indexOf -->
+  <!-- <script src="./array1.js"></script> -->
+
+  <!-- filter -->
+  <!-- <script src="./array2.js"></script> -->
+
+  <script>
+    var array = [1, 2, 3, 2, 1, '1']
+    function getNewArr() {
+      var res = array.filter((one,i,array) => {
+        return array.indexOf(one) === i
+      })
+      return res
+    }
+    console.log(getNewArr(array))
+  </script>
+</body>
+</html>

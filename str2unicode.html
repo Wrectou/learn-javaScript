@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>str2unicode</title>
+</head>
+<body>
+  
+  <script>
+
+    function str2unicode(str) {
+      let strArr = str.split('')
+      let returnStr = ''
+      strArr.forEach(item => {
+        let itemStr = `\\u${item.charCodeAt().toString(16)}`
+        returnStr += itemStr
+      })
+      return returnStr
+    }
+    var unicodeStr = str2unicode('张ghhgjh官方将法国恢复规划？结核杆菌换个环境、就换个环境估计会很干净')
+    console.log(unicodeStr);
+
+  </script>
+
+</body>
+</html>

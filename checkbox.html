@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    label{
+      padding: 8px 10px;
+      border: solid 1px ;
+    }
+    input{
+      display: none;
+    }
+    .active{
+      border: solid 1px red;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkboxs">
+    <input type="checkbox" name="name" id="1">
+    <label for="1">1</label>
+    <input type="checkbox" name="name" id="2">
+    <label for="2">2</label>
+    <input type="checkbox" name="name" id="3">
+    <label for="3">3</label>
+    <input type="checkbox" name="name" id="4">
+    <label for="4">4</label>
+  </div>
+  <script>
+    var checkboxs = document.querySelectorAll('input')
+    checkboxs.forEach(item => {
+      console.log(item,item.checked);
+      item.addEventListener('click',() => {
+        if (item.checked) {
+          item.nextSibling.nextSibling.className = 'active'
+        } else {
+          item.nextSibling.nextSibling.className = ''
+        }
+      })
+    })
+  </script>
+</body>
+</html>

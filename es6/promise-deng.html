@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>红绿灯</title>
+</head>
+<body>
+  <script>
+    function red() {
+      console.log('red');
+    }
+    function green() {
+      console.log('green');
+    }
+    function yellow() {
+      console.log('yellow');
+    }
+
+    let lightUp = (time, cb) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          cb()
+          resolve()
+        }, time)
+      })
+    }
+
+    let startUp = () => {
+      Promise.resolve()
+        .then(() => {
+          return lightUp(3000, red)
+        })
+        .then(() => {
+          return lightUp(2000, green)
+        })
+        .then((res) => {
+          return lightUp(1000, yellow)
+        })
+        .then(() => {
+          startUp()
+        })
+    }
+
+    startUp()
+  </script>
+</body>
+</html>

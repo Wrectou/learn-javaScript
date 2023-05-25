@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>li</title>
+</head>
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+  </ul>
+  <script>
+    var allLi = document.querySelectorAll('li')
+    for (var i = 0; i < allLi.length; i++) {
+      (function(j) {
+        allLi[j].onclick = function() {
+          console.log(j);
+        }
+      })(i)
+    }
+
+    var fn = (
+      function test1() {
+        return 1
+      },
+
+      function test2() {
+        return '2'
+      },
+
+      function test3() {
+        return 3
+      }
+    )
+
+    console.log(fn);
+    console.log(typeof fn);
+  </script>
+</body>
+</html>

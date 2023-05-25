@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>compress-image</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .container{
+      padding: 20px;
+    }
+    label{
+      width: 100px;
+      height: 36px;
+      background: #2d8cf0;
+      display: inline-block;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 36px;
+      color: #fff;
+      cursor: pointer;
+    }
+    #choose-image{
+      display: none;
+    }
+    h3{
+      margin: 20px 3px 10px;
+    }
+    .content-box{
+      display: flex;
+      margin: 20px 0 0;
+    }
+    .origin-box,
+    .target-box{
+      flex: 1;
+      margin: 0 4px;
+      line-height: 26px;
+    }
+    h4{
+      margin: 0 0 5px;
+    }
+    img{
+      margin: 10px 0 0;
+      width: 100%;
+    }
+    canvas{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="handler-box">
+      <label for="choose-image">选择图片</label>
+      <input type="file" id="choose-image" accept="image/*" onchange="chooseImage(event)" />
+    </div>
+    <h3 class="compress-rate"></h3>
+    <div class="content-box">
+      <div class="origin-box">
+        <h4>原图信息：</h4>
+        <div class="info-box"></div>
+      </div>
+      <div class="target-box">
+        <h4>压缩后信息：</h4>
+        <div class="info-box"></div>
+      </div>
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+  <script>
+    const originInfoEl = document.querySelector(".origin-box .info-box")
+    const targetInfoEl = document.querySelector(".target-box .info-box")
+    const compressRateEl = document.querySelector(".compress-rate")
+    const canvasEl = document.querySelector("#canvas")
+    let originImageObj = {}, targetIamgeObj = {}
+
+    function chooseImage(e) {
+      originImageObj = {}
+      targetIamgeObj = {}
+      let file = e.target.files[0]
+      console.log("originFile: ", file);
+      originImageObj = file
+      targetIamgeObj.name = file.name.split('.')[0] + '[压缩后].' + file.name.split('.')[1]
+      let readerFile = new FileReader()
+      readerFile.readAsDataURL(file)
+      readerFile.onload = function() {
+        originImageObj.src = readerFile.result
+        let img = new Image()
+        img.src = readerFile.result
+        img.onload = function() {
+          canvasEl.width = this.width
+          canvasEl.height = this.height
+          originImageObj.width = this.width
+          originImageObj.height = this.height
+          handleImageInfo(originInfoEl, originImageObj)
+          const context = canvasEl.getContext("2d")
+          context.drawImage(img, 0, 0, this.width, this.height)
+          context.canvas.toBlob(blob => {
+            const file = new File([blob], targetIamgeObj.name, {
+              type: originImageObj.type,
+              lastModified: Date.now()
+            })
+            targetIamgeObj = file
+            targetIamgeObj.width = this.width
+            targetIamgeObj.height = this.height
+            targetIamgeObj.src = URL.createObjectURL(file)
+            handleImageInfo(targetInfoEl, targetIamgeObj)
+            console.log("targetFile: ", file);
+            compressRateEl.innerHTML = "压缩率: " + ((targetIamgeObj.size / originImageObj.size) * 100).toFixed(2) + "%"
+          }, originImageObj.type, .7)
+        }
+      }
+    }
+    function handleImageInfo(el, info) {
+      const infoHtml = `
+        <p>文件名：<span>${info.name}</span></p>
+        <p>大小：<span>${(info.size / 1024 / 1024).toFixed(3)} M</span></p>
+        <p>分辨率：<span>${info.width} * ${info.height}</span></p>
+        <img src="${info.src}" alt="${info.name}" />
+      `
+      el.innerHTML = infoHtml
+    }
+  </script>
+</body>
+</html>
